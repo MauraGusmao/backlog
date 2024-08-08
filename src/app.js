@@ -1,6 +1,6 @@
  import express from "express";
  import bodyParser from "body-parser";
- import filmesRoutes from "../sr/routes/filmeRoutes.js";
+ import filmeRoutes from "../src/routes/filmeRoutes.js";
 
  const app = express();
  

@@ -3,7 +3,7 @@
  class Filmes{
     async BuscarTodosFilmes(req ,res){
         try{
-            const filmes = await filmeModel.findAll();
+            const filmes = await filmesModel.findAll();
             res.json(filmes);
         }
         catch(err){
@@ -12,3 +12,5 @@
         }
     }
  }
+
+ export default Filmes;
