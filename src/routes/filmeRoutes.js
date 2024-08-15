@@ -14,5 +14,19 @@
     }
  });
 
- 
+
+ router.post('/' , (req , res)=> {
+
+    try{
+        filme.CadastrarFilme(req , res);
+
+    }
+    catch(err){
+        res.status(500).json({erro: err.message});
+
+    }
+
+ });
+
+
  export default router;

@@ -20,7 +20,7 @@ const filmeModel = Sequelize.define('filmes',{
         type : DataTypes.INTEGER,
         allowNull: false
     },
-    genero: {
+    gereno: {
         type: DataTypes.STRING,
         allowNull: false
 
