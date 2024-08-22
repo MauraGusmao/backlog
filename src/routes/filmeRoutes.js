@@ -6,7 +6,7 @@
 
  router.get('/' ,(req , res) =>{
     try{
-        filme.BuscarTodosOsFilmes(req, res);
+        filme.BuscarTodosFilmes(req, res);
     } 
     catch(err){
         res.status(500).json({erro: err.message})
@@ -20,6 +20,7 @@
     try{
         filme.CadastrarFilme(req , res);
 
+        
     }
     catch(err){
         res.status(500).json({erro: err.message});

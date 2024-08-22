@@ -3,7 +3,7 @@
  class Filmes{
     async BuscarTodosFilmes(req ,res){
         try{
-            const filmes = await filmesModel.findAll();
+            const filmes = await filmeModel.findAll();
             res.json(filmes);
         }
         catch(err){
