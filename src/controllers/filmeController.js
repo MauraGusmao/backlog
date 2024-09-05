@@ -36,6 +36,25 @@
             
         }
     }
+    async AtualizarFilme(req , res){
+        try {
+            const [atualizado] = await  filmeModel.update(req.body,
+                { where: {id: req.params.id} }
+            );
+            
+            if(atualizado){
+                const filmeAtualizado = await filmeModel.findByPk(req.params.id);
+                res.json({ message: "filme atualizado com sucesso" , filme: filmeAtualizado});
+            }
+            
+            else{
+                res.status(404).json({erro: 'filme não encontrado!'});
+            }
+            
+        } catch (err) {
+            res.status(500).json({erro: err.message})
+        }
+    }
  }
 
  export default Filmes;
