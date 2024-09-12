@@ -52,5 +52,18 @@
 
  });
 
+ router.delete('/:id', (req , res)=>{
+    try {
+
+        filme.DeletarFilme(req ,res);
+        
+    } catch (err) {
+
+        res.status(500).json({erro:err.message})
+        
+    }
+
+ });
+
 
  export default router;
