@@ -1,78 +1,68 @@
- import filmeModel from "../models/filmesModel.js";
-
- class Filmes{
-    async BuscarTodosFilmes(req ,res){
-        try{
-            const filmes = await filmeModel.findAll();
+import filmeModel from "../models/filmeModel.js";
+//controlles
+export default class Filmes{
+    async BuscarTodosOsFilmes(req, res){//Async e await faz o javascript aguardar as informações de findAll antes de dar a resposta para o usuario
+        try {
+            const filmes = await filmeModel.findAll();//Await indica que o código deve entrar em estado de espera
             res.json(filmes);
         }
         catch(err){
-            res.status(500).json({erro:err.message})
-
+            res.status(500).json({erro: err.message});
         }
-    }
 
 
-    async BuscarFilmePorId(req , res){
-        try {
-            const FilmeEncontrado = await filmeModel.findByPk(req.params.id);
-            if(!FilmeEncontrado){
-                return res.status(404).json({erro:'Filme não encontrado'});
-            }
-            return res.json(FilmeEncontrado);
-
-        } 
-        catch (err) {
-            res.status(500).json({erro:err.message});
-            
-        }
     }
     async CadastrarFilme(req, res){
         try {
-            const FilmeCadastrado = await filmeModel.create(req.body);
-            res.json({message: 'Filme cadastrado com sucesso!', FilmeCadastrado});
-        } catch (err) {
+            const filmeCadastrado = await filmeModel.create(req.body);
+            res.json({message: 'Filme cadastrado com sucesso!', filmeCadastrado});
+        } 
+        catch (err) {
             res.status(500).json({erro: err.message});
-            
         }
+
     }
-    async AtualizarFilme(req , res){
-        try {
-            const [atualizado] = await  filmeModel.update(req.body,
-                { where: {id: req.params.id} }
-            );
-            
-            if(atualizado){
-                const filmeAtualizado = await filmeModel.findByPk(req.params.id);
-                res.json({ message: "filme atualizado com sucesso" , filme: filmeAtualizado});
-            }
-            
-            else{
-                res.status(404).json({erro: 'filme não encontrado!'});
-            }
-            
-        } catch (err) {
-            res.status(500).json({erro: err.message})
+
+    async BuscarFilme(req, res, id){
+        try{
+            const filme = await filmeModel.findOne({where: {id: id}});
+            if(!filme){
+                return res.status(404).json({erro: ""});//Return para evitar que em caso de bug de fluxo o código tente mandar duas
+                //respostas para o servidor e acabe o derrubando.
+            } 
+            return res.json(filme);
+        }catch(err){
+            res.status(500).json({erro: err.message});
         }
     }
 
-    async DeletarFilme(req , res){
-        try {
-            const filmeDeletado = await filmeModel.destroy({
-                where :{id: req.params.id }
+    async AtualizarFilme(req,res){
+        try{
+            const [atualizado] = await filmeModel.update(req.body, {where: {"id": req.params.id}});
+            if(!atualizado){
+                return res.status(404).json({erro:"Filme não encontrado"});
+            }
+            const filmeAtualizado = await filmeModel.findOne({where: {"id": req.params.id}});
+            return res.json({message:"Filme atualizado com sucesso", filme: filmeAtualizado});
+        }
+        catch(err){
+            res.status(500).json({erro: err.message});
+        }
+
+    }
+
+    async DeletarFilme(req, res){
+        try{
+            const filme = await filmeModel.destroy({
+                where:{"id": req.params.id}
             });
-            if(filmeDeletado){
-                res.status(204).json({message: 'filme deletado com sucesso'});
+            if(!filme){
+                return res.status(404).json({erro: "Filme não encontrado"});
             }
-            else{
-                res.status(404).json ({err: 'filme nao encontrado'});
-            }
-            
-        } catch (err) {
-            res.status(500).json({erro:err.message})
-            
+            return res.status(204).json({message: "Filme deletado com sucesso", filme: filme});
+        }catch(err){
+            res.status(500).json({erro: err.message});
         }
     }
- }
 
- export default Filmes;
+}
