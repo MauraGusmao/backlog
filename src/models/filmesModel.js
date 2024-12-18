@@ -1,36 +1,31 @@
- import { DataTypes } from "sequelize";
-import Sequelize from "../config/dbConfig.js";
-
-const filmeModel = Sequelize.define('Filmes',{
+import { DataTypes } from "sequelize";
+import sequelize from "../config/dbConfig.js";
+//configurando sequelize
+const filmeModel = sequelize.define('filmes', {
     id: {
-        type : DataTypes.INTEGER,
+        type:DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: false
     },
     titulo: {
-        type : DataTypes.STRING,
-        allowNull: false
+        type:DataTypes.STRING,
+        allowNull: false,
     },
     diretor: {
-        type: DataTypes.STRING,
-        allowNull:false
-    },
-    ano: {
-        type : DataTypes.INTEGER,
+        type:DataTypes.STRING,
         allowNull: false
     },
-    gereno: {
-        type: DataTypes.STRING,
+    ano:{
+        type:DataTypes.INTEGER,
+        allowNull: false,
+    },
+    genero:{
+        type:DataTypes.STRING,
         allowNull: false
-
     }
-},   {
+}, {
     timestamps:false
-
-
-
 });
 
 export default filmeModel;
-    
